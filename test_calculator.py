@@ -1,5 +1,5 @@
 import pytest
-from calculator import evaluate, CalculatorError
+from calculator import evaluate, calculate, CalculatorError
 
 
 @pytest.mark.parametrize("expr, expected", [
@@ -19,3 +19,8 @@ def test_valid_expressions(expr, expected):
 def test_errors_raise_calculator_error(expr):
     with pytest.raises(CalculatorError):
         evaluate(expr)
+
+
+def test_calculate_alias():
+    assert calculate("2+3*4") == pytest.approx(14)
+    assert calculate("sin(30)", angle_mode="deg") == pytest.approx(0.5)

@@ -176,6 +176,9 @@ class Parser:
         except OverflowError:
             raise CalculatorError("Math domain error")
 
+def calculate(expression, angle_mode="deg"):
+    return evaluate(expression, angle_mode)
+
 def evaluate(expression, angle_mode="deg"):
     tokens = tokenize(expression)
     parser = Parser(tokens, angle_mode)
