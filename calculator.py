@@ -1,3 +1,5 @@
+import math
+
 class CalculatorError(Exception):
     pass
 
@@ -44,9 +46,12 @@ def tokenize(text: str) -> list:
     return tokens
 
 class Parser:
-    def __init__(self, tokens):
+    def __init__(self, tokens, angle_mode="deg"):
+        if angle_mode not in ("deg", "rad"):
+            raise CalculatorError("Invalid angle_mode")
         self.tokens = tokens
         self.pos = 0
+        self.angle_mode = angle_mode
 
     def peek(self):
         if self.pos < len(self.tokens):
@@ -105,7 +110,7 @@ class Parser:
         return base
 
     def parse_primary(self):
-        # Handles numbers and parentheses
+        # Handles numbers, parentheses, constants, and functions
         token = self.peek()
         if token is None:
             raise CalculatorError("Unexpected end of expression")
@@ -120,11 +125,36 @@ class Parser:
             self.consume()
             return float(token)
             
+        if token in ('pi', 'e'):
+            self.consume()
+            return math.pi if token == 'pi' else math.e
+
+        if token.isalpha():
+            self.consume()
+            self.consume('(')
+            arg = self.parse_expression()
+            self.consume(')')
+            return self._apply_function(token, arg)
+
         raise CalculatorError(f"Unexpected token: {token}")
+
+    def _apply_function(self, name, arg):
+        # Apply math function with angle mode handling
+        if name in ('sin', 'cos', 'tan'):
+            rad = math.radians(arg) if self.angle_mode == 'deg' else arg
+            return getattr(math, name)(rad)
+        if name in ('asin', 'acos', 'atan'):
+            val = getattr(math, name)(arg)
+            return math.degrees(val) if self.angle_mode == 'deg' else val
+        if name == 'log':
+            return math.log10(arg)
+        if name in ('ln', 'sqrt', 'abs'):
+            return getattr(math, name)(arg)
+        raise CalculatorError(f"Unknown function: {name}")
 
 def evaluate(expression, angle_mode="deg"):
     tokens = tokenize(expression)
-    parser = Parser(tokens)
+    parser = Parser(tokens, angle_mode)
     result = parser.parse_expression()
     
     # Check for leftover tokens
