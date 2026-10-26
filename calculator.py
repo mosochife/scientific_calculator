@@ -119,38 +119,62 @@ class Parser:
             self.consume('(')
             value = self.parse_expression()
             self.consume(')')
-            return value
+            return self._parse_postfix(value)
         
         if token.replace('.', '', 1).isdigit():
             self.consume()
-            return float(token)
+            return self._parse_postfix(float(token))
             
         if token in ('pi', 'e'):
             self.consume()
-            return math.pi if token == 'pi' else math.e
+            return self._parse_postfix(math.pi if token == 'pi' else math.e)
 
         if token.isalpha():
             self.consume()
             self.consume('(')
             arg = self.parse_expression()
             self.consume(')')
-            return self._apply_function(token, arg)
+            return self._parse_postfix(self._apply_function(token, arg))
 
         raise CalculatorError(f"Unexpected token: {token}")
+
+    def _parse_postfix(self, value):
+        # Handles postfix operators like !
+        while self.peek() == '!':
+            self.consume()
+            value = self._apply_factorial(value)
+        return value
 
     def _apply_function(self, name, arg):
         # Apply math function with angle mode handling
         if name in ('sin', 'cos', 'tan'):
             rad = math.radians(arg) if self.angle_mode == 'deg' else arg
+            if name == 'tan' and self.angle_mode == 'deg' and arg % 180 == 90:
+                raise CalculatorError("Math domain error")
             return getattr(math, name)(rad)
         if name in ('asin', 'acos', 'atan'):
+            if name in ('asin', 'acos') and (arg < -1 or arg > 1):
+                raise CalculatorError("Math domain error")
             val = getattr(math, name)(arg)
             return math.degrees(val) if self.angle_mode == 'deg' else val
         if name == 'log':
+            if arg <= 0:
+                raise CalculatorError("Math domain error")
             return math.log10(arg)
         if name in ('ln', 'sqrt', 'abs'):
+            if name in ('ln', 'sqrt') and arg < 0:
+                raise CalculatorError("Math domain error")
             return getattr(math, name)(arg)
         raise CalculatorError(f"Unknown function: {name}")
+
+    def _apply_factorial(self, value):
+        # Apply factorial with domain checks
+        if value < 0 or value != int(value):
+            raise CalculatorError("Math domain error")
+        try:
+            return math.factorial(int(value))
+        except OverflowError:
+            raise CalculatorError("Math domain error")
 
 def evaluate(expression, angle_mode="deg"):
     tokens = tokenize(expression)
