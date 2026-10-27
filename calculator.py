@@ -164,12 +164,16 @@ class Parser:
         if name in ('ln', 'sqrt', 'abs'):
             if name in ('ln', 'sqrt') and arg < 0:
                 raise CalculatorError("Math domain error")
-            return getattr(math, name)(arg)
+            if name == 'abs':
+                return abs(arg)
+            if name == 'ln':
+                return math.log(arg)
+            return math.sqrt(arg)
         raise CalculatorError(f"Unknown function: {name}")
 
     def _apply_factorial(self, value):
         # Apply factorial with domain checks
-        if value < 0 or value != int(value):
+        if value < 0 or value != int(value) or value > 170:
             raise CalculatorError("Math domain error")
         try:
             return math.factorial(int(value))
