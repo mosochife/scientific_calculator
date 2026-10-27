@@ -43,3 +43,11 @@ def test_invalid_calculation_is_not_saved_in_history():
     assert "Error: Division by zero" in result.stdout
     assert "No calculations yet." in result.stdout
 
+
+def test_angle_mode_switching():
+    result = run_calculator(["rad", "sin(pi/2)", "deg", "sin(30)", "quit"])
+
+    assert "Angle mode set to rad." in result.stdout
+    assert "Result: 1" in result.stdout
+    assert "Angle mode set to deg." in result.stdout
+    assert "Result: 0.5" in result.stdout
