@@ -27,6 +27,7 @@ def test_history_shows_calculation():
     assert "2+3 = 5" in result.stdout
 
 
+
 def test_clear_removes_calculation_history():
     result = run_calculator(
         ["2+3", "clear", "history", "quit"]
@@ -34,3 +35,11 @@ def test_clear_removes_calculation_history():
 
     assert "Calculation history cleared." in result.stdout
     assert "No calculations yet." in result.stdout
+
+
+def test_invalid_calculation_is_not_saved_in_history():
+    result = run_calculator(["1/0", "history", "quit"])
+
+    assert "Error: Division by zero" in result.stdout
+    assert "No calculations yet." in result.stdout
+
