@@ -1,52 +1,48 @@
 # Scientific Calculator
 
-A command-line scientific calculator built with Python. It evaluates mathematical expressions and supports scientific functions, angle modes, and calculation history.
+A scientific calculator for the web and the command line, built with Python and Flask.
+
+**Live demo:** https://scientific-calculator-taeg.onrender.com
+
+> Hosted on a free plan, so the first visit after a quiet period can take up to a minute to wake up.
 
 ## Features
 
-- Basic arithmetic: addition, subtraction, multiplication, and division
-- Scientific functions: sine, cosine, tangent, and inverse trigonometric functions
-- Logarithms: `log()` and `ln()`
-- Other functions: `sqrt()`, `abs()`, and factorial
-- Mathematical constants: `pi` and `e`
-- Degree and radian angle modes
-- Calculation history
-- Clear history with the `clear` command
-- Built-in help with the `help` command
-- Input validation and error handling
+- Web interface with an on-screen keypad, keyboard input, and a history of recent calculations
+- Basic arithmetic, powers (`^`), and parentheses
+- Trigonometric and inverse trigonometric functions with a degree/radian toggle
+- Logarithms: `log()` (base 10) and `ln()`
+- `sqrt()`, `abs()`, factorial (`!`), and the constants `pi` and `e`
+- A safe expression parser written from scratch, with no use of `eval()`
+- Clear error messages for invalid input, division by zero, and domain errors
+- A command-line version with history and angle-mode commands
+- Automated tests with pytest
 
-## Requirements
+## How It Works
 
-- Python 3
-- No external packages are required for the calculator and its tests.
+1. A tokenizer splits the expression into numbers, names, operators, and parentheses.
+2. A recursive descent parser evaluates the tokens, with one method per precedence level.
+3. A Flask endpoint, `POST /calculate`, takes JSON and returns a result or an error.
+4. The web page sends expressions to that endpoint and shows the response.
 
-## Getting Started
-
-### 1. Clone the repository
+## Run the Web Version Locally
 
 ```bash
 git clone https://github.com/mosochife/scientific_calculator.git
 cd scientific_calculator
-```
-
-### 2. Create and activate a virtual environment (optional)
-
-On Linux or macOS:
-
-```bash
 python3 -m venv venv
 source venv/bin/activate
+pip install -r requirements.txt
+python app.py
 ```
 
-### 3. Run the calculator
+Then open http://127.0.0.1:5000 in your browser.
+
+## Run the Command-Line Version
 
 ```bash
 python main.py
 ```
-
-Enter a mathematical expression when prompted.
-
-## Commands
 
 | Command | Description |
 |---|---|
@@ -60,66 +56,46 @@ Enter a mathematical expression when prompted.
 ## Examples
 
 ```text
-> 2 + 3
-Result: 5
-
-> sqrt(25)
-Result: 5
-
-> sin(30)
-Result: 0.5
-
-> rad
-Angle mode set to rad.
-
-> sin(pi/2)
-Result: 1
+2+3*4        ->  14
+sin(30)      ->  0.5     (degree mode)
+sin(pi/2)    ->  1       (radian mode)
+sqrt(25)     ->  5
+5!           ->  120
+-2^2         ->  -4
 ```
-
-Trigonometric functions use degree mode by default. Use `rad` to switch to radians.
 
 ## Running the Tests
 
-Run the automated tests with:
-
 ```bash
+pip install -r requirements-dev.txt
 python -m pytest -v
 ```
 
-The tests cover calculator functionality and command-line behavior.
+The tests cover the calculator engine, the command-line interface, and the web API.
 
 ## Project Files
 
 ```text
 scientific_calculator/
-├── calculator.py       # Mathematical calculation engine
-├── main.py             # Interactive command-line interface
-├── test_calculator.py  # Calculator tests
-├── test_cli.py         # Command-line interface tests
-└── README.md           # Project documentation
+├── calculator.py        # Tokenizer, parser, and evaluator
+├── app.py               # Flask web app and API
+├── main.py              # Command-line interface
+├── templates/
+│   └── index.html       # Web page
+├── static/
+│   ├── style.css        # Styling
+│   └── script.js        # Browser logic
+├── test_calculator.py   # Engine tests
+├── test_cli.py          # Command-line tests
+├── test_app.py          # Web API tests
+├── requirements.txt     # Runtime dependencies
+└── requirements-dev.txt # Test dependencies
 ```
 
-## Future Improvements
+## Deployment
 
-- Add more scientific functions
-- Improve result formatting and rounding options
-- Add more automated tests
+Deployed on Render with `pip install -r requirements.txt` as the build command and `gunicorn app:app` as the start command.
 
 ## Author
 
-**mosochife**
-
-## Live Demo
-
-**Try it online:** https://scientific-calculator-taeg.onrender.com
-
-Hosted on a free plan, so the first visit after a quiet period can take up to a minute to wake up.
-
-## Run the Web Version Locally
-
-```bash
-pip install -r requirements.txt
-python app.py
-```
-
-Then open http://127.0.0.1:5000 in your browser.
+**mosochife** - [github.com/mosochife](https://github.com/mosochife)
