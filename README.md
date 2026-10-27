@@ -108,3 +108,18 @@ scientific_calculator/
 ## Author
 
 **mosochife**
+
+## Live Demo
+
+**Try it online:** https://scientific-calculator-taeg.onrender.com
+
+Hosted on a free plan, so the first visit after a quiet period can take up to a minute to wake up.
+
+## Run the Web Version Locally
+
+```bash
+pip install -r requirements.txt
+python app.py
+```
+
+Then open http://127.0.0.1:5000 in your browser.
