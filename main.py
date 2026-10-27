@@ -23,7 +23,7 @@ def main():
 
         try:
             result = evaluate(expression, angle_mode)
-            print(f"Result: {result}")
+            print(f"Result: {result:.10g}")
         except CalculatorError as error:
             print(f"Error: {error}")
         except (ValueError, OverflowError) as error:
