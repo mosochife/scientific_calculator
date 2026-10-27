@@ -23,6 +23,11 @@ def main():
             angle_mode = expression.lower()
             print(f"Angle mode set to {angle_mode}.")
             continue
+         
+        if expression.lower() == "clear":
+            history.clear()
+            print("Calculation history cleared.")
+            continue
 
         if expression.lower() == "history":
             if not history:
@@ -47,3 +52,4 @@ def main():
 if __name__ == "__main__":
     main()
 
+        
