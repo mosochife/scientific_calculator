@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scientific Calculator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="calculator">
+    <header class="top">
+      <h1>Scientific Calculator</h1>
+      <button id="mode" class="mode" type="button" title="Toggle degrees/radians">DEG</button>
+    </header>
+
+    <div class="display">
+      <input id="expression" type="text" autocomplete="off" spellcheck="false"
+             maxlength="200" placeholder="0" aria-label="Expression">
+      <div id="result" class="result" aria-live="polite"></div>
+      <div id="error" class="error" role="alert"></div>
+    </div>
+
+    <div class="keys">
+      <button class="fn" data-insert="sin(">sin</button>
+      <button class="fn" data-insert="cos(">cos</button>
+      <button class="fn" data-insert="tan(">tan</button>
+      <button class="op" data-insert="(">(</button>
+      <button class="op" data-insert=")">)</button>
+
+      <button class="fn" data-insert="asin(">asin</button>
+      <button class="fn" data-insert="acos(">acos</button>
+      <button class="fn" data-insert="atan(">atan</button>
+      <button class="op" data-insert="^">^</button>
+      <button class="op" data-insert="!">!</button>
+
+      <button class="fn" data-insert="log(">log</button>
+      <button class="fn" data-insert="ln(">ln</button>
+      <button class="fn" data-insert="sqrt(">√</button>
+      <button class="fn" data-insert="pi">π</button>
+      <button class="fn" data-insert="e">e</button>
+
+      <button data-insert="7">7</button>
+      <button data-insert="8">8</button>
+      <button data-insert="9">9</button>
+      <button class="op" data-insert="/">÷</button>
+      <button class="danger" data-action="back">⌫</button>
+
+      <button data-insert="4">4</button>
+      <button data-insert="5">5</button>
+      <button data-insert="6">6</button>
+      <button class="op" data-insert="*">×</button>
+      <button class="danger" data-action="clear">C</button>
+
+      <button data-insert="1">1</button>
+      <button data-insert="2">2</button>
+      <button data-insert="3">3</button>
+      <button class="op" data-insert="-">−</button>
+      <button class="fn" data-insert="abs(">abs</button>
+
+      <button class="wide" data-insert="0">0</button>
+      <button data-insert=".">.</button>
+      <button class="op" data-insert="+">+</button>
+      <button class="equals" data-action="equals">=</button>
+    </div>
+
+    <section class="history">
+      <h2>History</h2>
+      <ul id="history"></ul>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
