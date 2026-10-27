@@ -7,6 +7,8 @@ def main():
     print("Type an expression such as 2+3*4 or sin(30).")
     print("Use 'deg' or 'rad' to change angle mode.")
     print("Type 'history' to see previous calculations.")
+    print("Type 'clear' to clear calculation history.")
+    print("Type 'help' to see available commands.")
     print("Type 'quit' to exit.")
 
     angle_mode = "deg"
@@ -27,6 +29,15 @@ def main():
         if expression.lower() == "clear":
             history.clear()
             print("Calculation history cleared.")
+            continue
+        if expression.lower() == "help":
+            print("Available commands:")
+            print("  deg     - use degrees for angles")
+            print("  rad     - use radians for angles")
+            print("  history - show calculation history")
+            print("  clear   - clear calculation history")
+            print("  help    - show available commands")
+            print("  quit    - exit the calculator")
             continue
 
         if expression.lower() == "history":
