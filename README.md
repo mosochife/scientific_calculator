@@ -100,6 +100,14 @@ scientific_calculator/
 
 Deployed on Render with `pip install -r requirements.txt` as the build command and `gunicorn app:app` as the start command.
 
+## What I Learned
+
+- **Why not `eval()`:** it runs any Python code, so it is unsafe on a public website. Writing a tokenizer and a recursive descent parser keeps the calculator limited to the math it supports.
+- **Operator precedence comes from structure:** one parser method per precedence level is what makes `-2^2` equal `-4` and `2^3^2` equal `512`.
+- **Floating-point noise:** computers store decimals in binary, so `sin(30)` came out as `0.49999999999999994`. Rounding the result in the API fixes the display, and the tests compare values with a tolerance.
+- **Tests first, then the web layer:** the engine had passing tests before I built the Flask API and page, so I could trust it.
+- **Deployment:** I moved from `python app.py` to `gunicorn` and deployed on Render, where I learned to separate runtime and dev requirements.
+
 ## Author
 
 **mosochife** - [github.com/mosochife](https://github.com/mosochife)
