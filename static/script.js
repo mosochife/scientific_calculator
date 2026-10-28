@@ -110,3 +110,50 @@ modeBtn.addEventListener("click", () => {
 });
 
 exprInput.focus();
+
+// Read the calculator result aloud
+function speakAnswer() {
+  const answer = resultEl.textContent;
+
+  if (!answer || !answer.startsWith("=")) {
+    errorEl.textContent = "Please calculate an answer first.";
+    return;
+  }
+
+  const speech = new SpeechSynthesisUtterance(
+    "The answer is " + answer.replace("=", "").trim()
+  );
+
+  speech.lang = "en-US";
+  window.speechSynthesis.speak(speech);
+}
+// Voice calculator
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+
+function startVoiceInput() {
+  if (!SpeechRecognition) {
+    errorEl.textContent =
+      "Voice recognition is not supported by this browser.";
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = "en-US";
+  recognition.continuous = false;
+
+  recognition.onstart = () => {
+    errorEl.textContent = "Listening...";
+  };
+
+  recognition.onresult = (event) => {
+    exprInput.value = event.results[0][0].transcript;
+    calculate();
+  };
+
+  recognition.onerror = () => {
+    errorEl.textContent = "Could not hear you. Please try again.";
+  };
+
+  recognition.start();
+}

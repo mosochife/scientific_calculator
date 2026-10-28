@@ -16,8 +16,12 @@
     <div class="display">
       <input id="expression" type="text" autocomplete="off" spellcheck="false"
              maxlength="200" placeholder="0" aria-label="Expression">
-      <div id="result" class="result" aria-live="polite"></div>
-      <div id="error" class="error" role="alert"></div>
+           <div id="result" class="result" aria-live="polite"></div>
+                <button id="voiceBtn" type="button" onclick="startVoiceInput()">
+      🎤 Speak</button>
+       <button id="speakBtn" type="button" onclick="speakAnswer()">
+     🔊 Read answer</button>
+     <div id="error" class="error" role="alert"></div>
     </div>
 
     <div class="keys">
