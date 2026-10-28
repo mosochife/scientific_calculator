@@ -6,6 +6,10 @@ A scientific calculator for the web and the command line, built with Python and 
 
 > Hosted on a free plan, so the first visit after a quiet period can take up to a minute to wake up.
 
+<p align="center">
+  <img src="docs/screenshot.png" alt="Scientific Calculator web interface" width="340">
+</p>
+
 ## Features
 
 - Web interface with an on-screen keypad, keyboard input, and a history of recent calculations
