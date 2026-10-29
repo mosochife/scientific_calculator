@@ -20,7 +20,11 @@ A scientific calculator for the web and the command line, built with Python and 
 - A safe expression parser written from scratch, with no use of `eval()`
 - Clear error messages for invalid input, division by zero, and domain errors
 - A command-line version with history and angle-mode commands
+- Voice input: tap **Speak** and say an expression such as "two plus three"
+- Read-aloud: tap **Read answer** to hear the result spoken
 - Automated tests with pytest
+
+> Voice input needs a microphone and works best in Chrome. Speech recognition is handled by the browser, which may send audio to its provider's servers.
 
 ## How It Works
 
